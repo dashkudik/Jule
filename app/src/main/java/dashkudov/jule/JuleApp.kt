@@ -6,5 +6,4 @@ import dagger.android.DaggerApplication
 
 class JuleApp: Application() {
 
-
 }

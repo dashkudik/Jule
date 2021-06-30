@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dashkudov.jule">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
+        android:networkSecurityConfig="@xml/policy"
+        android:usesCleartextTraffic="true"
         android:name=".JuleApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jule">
-        <activity android:name="dashkudov.jule.presentation.IntroActivity">
+        <activity android:name="dashkudov.jule.presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

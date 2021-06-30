@@ -1,12 +1,12 @@
 package dashkudov.jule.repository
 
-import dashkudov.jule.api.request.auth.LoginRequest
+import dashkudov.jule.api.request.auth.AuthRequest
 
 interface PreferencesRepository {
 
     // Auth
     suspend fun saveToken(token: String)
     suspend fun getSavedToken(): String?
-    suspend fun saveLoginRequest(loginRequest: LoginRequest)
-    suspend fun getLoginRequest(): LoginRequest?
+    suspend fun saveLoginRequest(authRequest: AuthRequest)
+    suspend fun getLoginRequest(): AuthRequest?
 }
