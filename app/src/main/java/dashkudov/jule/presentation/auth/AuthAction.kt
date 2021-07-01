@@ -1,5 +1,7 @@
 package dashkudov.jule.presentation.auth
 
-sealed class AuthAction {
+import dashkudov.jule.mvi.Action
+
+sealed class AuthAction: Action {
 
 }

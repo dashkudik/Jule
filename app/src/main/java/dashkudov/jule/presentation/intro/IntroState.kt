@@ -1,5 +1,7 @@
 package dashkudov.jule.presentation.intro
 
-sealed class IntroState {
+import dashkudov.jule.mvi.State
+
+sealed class IntroState: State {
     object Shown: IntroState()
 }

@@ -1,5 +1,7 @@
 package dashkudov.jule.presentation.auth
 
-sealed class AuthState {
+import dashkudov.jule.mvi.State
+
+sealed class AuthState: State {
 
 }

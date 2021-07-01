@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/f_intro"
+    android:id="@+id/main_navigation">
+
+    <fragment
+        tools:layout="@layout/f_intro"
+        android:name="dashkudov.jule.presentation.intro.ui.IntroFragment"
+        android:id="@+id/f_intro"/>
+
+</navigation>

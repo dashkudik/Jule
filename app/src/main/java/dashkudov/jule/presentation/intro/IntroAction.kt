@@ -1,5 +1,7 @@
 package dashkudov.jule.presentation.intro
 
-sealed class IntroAction {
+import dashkudov.jule.mvi.Action
+
+sealed class IntroAction: Action {
     object Completed: IntroAction()
 }
