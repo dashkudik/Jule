@@ -14,14 +14,15 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var apiRepository: ApiRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val juleComponent = DaggerJuleComponent.create()
-
-        val repo = juleComponent.apiRepository
-
+        juleComponent.inject(this)
 
         val authRequest = AuthRequest(
             login = "dimitri",
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         CoroutineScope(Dispatchers.Default).launch {
-            repo.login(authRequest)
+            apiRepository.login(authRequest)
         }
     }
 }

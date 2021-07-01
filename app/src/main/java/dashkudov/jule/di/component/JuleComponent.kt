@@ -10,6 +10,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 import dashkudov.jule.JuleApp
 import dashkudov.jule.dataSources.ApiDataSource
 import dashkudov.jule.di.module.NetworkModule
+import dashkudov.jule.presentation.MainActivity
 import dashkudov.jule.repository.ApiRepository
 import javax.inject.Singleton
 
@@ -20,5 +21,6 @@ import javax.inject.Singleton
     ]
 )
 interface JuleComponent {
+    fun inject(mainActivity: MainActivity)
     val apiRepository: ApiRepository
 }
