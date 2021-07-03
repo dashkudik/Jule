@@ -6,10 +6,7 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import dashkudov.jule.JuleApp
-import dashkudov.jule.di.module.ActivityBuilder
-import dashkudov.jule.di.module.MainActivityFragments
-import dashkudov.jule.di.module.NetworkModule
-import dashkudov.jule.di.module.ViewModelBuilder
+import dashkudov.jule.di.module.*
 import javax.inject.Singleton
 
 @Singleton
@@ -18,7 +15,7 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         NetworkModule::class,
         ActivityBuilder::class,
-        ViewModelBuilder::class,
+        ContextModule::class,
     ]
 )
 interface JuleComponent : AndroidInjector<JuleApp> {

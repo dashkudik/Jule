@@ -3,6 +3,7 @@ package dashkudov.jule.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.android.support.DaggerAppCompatActivity
@@ -18,6 +19,8 @@ import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

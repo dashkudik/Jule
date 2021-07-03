@@ -5,9 +5,9 @@ import dagger.android.ContributesAndroidInjector
 import dashkudov.jule.presentation.intro.ui.IntroFragment
 
 @Module
-abstract class MainActivityFragments {
+abstract class MainActivityProviders {
 
     @ContributesAndroidInjector
-    abstract fun introFragment(introFragment: IntroFragment): IntroFragment
+    abstract fun introFragment(): IntroFragment
 
 }

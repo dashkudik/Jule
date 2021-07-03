@@ -12,5 +12,5 @@ abstract class AppViewModelBuilder {
     @Binds
     @IntoMap
     @ViewModelKey(IntroViewModel::class)
-    abstract fun intro(introViewModel: IntroViewModel): ViewModel
+    abstract fun introViewModel(introViewModel: IntroViewModel): ViewModel
 }

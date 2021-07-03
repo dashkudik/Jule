@@ -6,9 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import dashkudov.jule.R
+import javax.inject.Inject
 
 abstract class BaseFragment(@LayoutRes private val layoutId: Int): Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreateView(
         inflater: LayoutInflater,

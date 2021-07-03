@@ -7,6 +7,6 @@ import dashkudov.jule.presentation.MainActivity
 @Module
 abstract class ActivityBuilder {
 
-    @ContributesAndroidInjector(modules = [MainActivityFragments::class])
+    @ContributesAndroidInjector(modules = [MainActivityProviders::class])
     abstract fun bindMainActivity(): MainActivity
 }

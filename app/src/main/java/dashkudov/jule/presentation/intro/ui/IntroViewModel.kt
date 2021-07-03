@@ -8,13 +8,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class IntroViewModel: ViewModel() {
-
-    @Inject lateinit var introStore: IntroStore
+class IntroViewModel @Inject constructor(): ViewModel() {
 
     fun bind() {
         CoroutineScope(Dispatchers.Default).launch {
-            introStore.apiRepository.login(AuthRequest("23", "243"))
+            //introStore.apiRepository.login(AuthRequest("23", "243"))
         }
     }
 }

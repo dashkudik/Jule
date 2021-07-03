@@ -8,10 +8,13 @@ import dashkudov.jule.di.component.DaggerJuleComponent
 class JuleApp: DaggerApplication() {
 
     init {
-        DaggerJuleComponent.builder().application(this).build().inject(this)
+        DaggerJuleComponent.builder().application(this).build()
     }
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = DaggerJuleComponent.builder().build()
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = DaggerJuleComponent
+        .builder()
+        .application(this)
+        .build()
 
     override fun onCreate() {
         super.onCreate()
