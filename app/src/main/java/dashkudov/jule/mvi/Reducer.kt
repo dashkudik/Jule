@@ -1,5 +1,8 @@
 package dashkudov.jule.mvi
 
-interface Reducer<State, Action> {
-    fun reduce(state: State, action: Action): State
+abstract class Reducer<S: State, A: Action>(vararg _middlewares: Middleware<A>) {
+
+    val middlewares = _middlewares
+
+    abstract fun reduce(state: S, action: A): S
 }

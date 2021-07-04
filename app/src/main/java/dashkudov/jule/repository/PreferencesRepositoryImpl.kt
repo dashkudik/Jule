@@ -15,11 +15,11 @@ class PreferencesRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun saveLoginRequest(authRequest: AuthRequest) {
+    override suspend fun saveAuthRequest(authRequest: AuthRequest) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getLoginRequest(): AuthRequest? {
-        TODO("Not yet implemented")
+    override suspend fun getAuthRequest(): AuthRequest? {
+        return AuthRequest("qwerty", "123")
     }
 }

@@ -5,5 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class ApiResponse<E>(
     val status: ResponseStatus,
     val message: String?,
-    val data: E,
-)
+    val data: E?,
+) {
+    val ok: Boolean
+    get() = status == ResponseStatus.SUCCESS
+}

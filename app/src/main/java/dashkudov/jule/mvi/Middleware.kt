@@ -1,7 +1,12 @@
 package dashkudov.jule.mvi
 
+import dashkudov.jule.repository.ApiRepository
+import dashkudov.jule.repository.PreferencesRepository
 import kotlinx.coroutines.flow.Flow
 
-interface Middleware<Action> {
-    fun bind(actions: Flow<Action>): Flow<Action>
+abstract class Middleware<A: Action> {
+    abstract fun bind(actions: Flow<A>): Flow<A>
+
+    lateinit var apiRepository: ApiRepository
+    lateinit var preferencesRepository: PreferencesRepository
 }

@@ -9,5 +9,8 @@ import javax.inject.Singleton
 
 @Module(includes = [ViewModelBuilder::class])
 class ContextModule {
-
+    @Provides
+    fun provideContext(application: Application): Context {
+        return application
+    }
 }

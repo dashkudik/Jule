@@ -7,6 +7,6 @@ interface PreferencesRepository {
     // Auth
     suspend fun saveToken(token: String)
     suspend fun getSavedToken(): String?
-    suspend fun saveLoginRequest(authRequest: AuthRequest)
-    suspend fun getLoginRequest(): AuthRequest?
+    suspend fun saveAuthRequest(authRequest: AuthRequest)
+    suspend fun getAuthRequest(): AuthRequest?
 }
