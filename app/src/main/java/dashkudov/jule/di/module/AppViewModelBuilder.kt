@@ -5,7 +5,7 @@ import dashkudov.jule.di.qualifier.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import dashkudov.jule.presentation.intro.ui.StartViewModel
+import dashkudov.jule.presentation.start.ui.StartViewModel
 
 @Module
 abstract class AppViewModelBuilder {

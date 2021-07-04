@@ -1,13 +1,10 @@
-package dashkudov.jule.presentation.intro.ui
+package dashkudov.jule.presentation.start.ui
 
 import androidx.lifecycle.ViewModel
-import dashkudov.jule.presentation.intro.StartAction
-import dashkudov.jule.presentation.intro.StartState
-import dashkudov.jule.presentation.intro.StartStore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import dashkudov.jule.presentation.start.StartAction
+import dashkudov.jule.presentation.start.StartState
+import dashkudov.jule.presentation.start.StartStore
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StartViewModel @Inject constructor(): ViewModel() {

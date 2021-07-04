@@ -1,6 +1,5 @@
 package dashkudov.jule
 
-enum class Error {
-    INTERNAL_SERVER_ERROR,
-    UNAUTH
-}
+import dashkudov.jule.api.ResponseStatus
+
+data class ErrorModel(val message: String?)

@@ -2,10 +2,10 @@ package dashkudov.jule.di.module
 
 import dagger.Module
 import dagger.Provides
-import dashkudov.jule.presentation.intro.StartImplicitAuthMiddleware
-import dashkudov.jule.presentation.intro.StartReducer
-import dashkudov.jule.presentation.intro.StartState
-import dashkudov.jule.presentation.intro.StartStore
+import dashkudov.jule.presentation.start.StartImplicitAuthMiddleware
+import dashkudov.jule.presentation.start.StartReducer
+import dashkudov.jule.presentation.start.StartState
+import dashkudov.jule.presentation.start.StartStore
 import dashkudov.jule.repository.ApiRepository
 import dashkudov.jule.repository.PreferencesRepository
 

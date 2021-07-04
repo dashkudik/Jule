@@ -8,7 +8,7 @@
 
     <fragment
         tools:layout="@layout/f_intro"
-        android:name="dashkudov.jule.presentation.intro.ui.StartFragment"
+        android:name="dashkudov.jule.presentation.start.ui.StartFragment"
         android:id="@+id/f_intro"/>
 
 </navigation>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Jule</string>
+    <string name="unknown_error">Что-то пошло не так :(</string>
 </resources>

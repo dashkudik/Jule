@@ -2,7 +2,7 @@ package dashkudov.jule.di.module
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import dashkudov.jule.presentation.intro.ui.StartFragment
+import dashkudov.jule.presentation.start.ui.StartFragment
 
 @Module
 abstract class MainActivityProviders {
