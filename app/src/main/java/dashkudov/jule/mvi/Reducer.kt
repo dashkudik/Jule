@@ -1,6 +1,8 @@
 package dashkudov.jule.mvi
 
-abstract class Reducer<S: State, A: Action>(vararg _middlewares: Middleware<A>) {
+import dashkudov.jule.model.JuleLogger
+
+abstract class Reducer<S: State, A: Action>(protected val logger: JuleLogger, vararg _middlewares: Middleware<A>) {
 
     val middlewares = _middlewares
 

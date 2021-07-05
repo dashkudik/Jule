@@ -11,19 +11,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-abstract class Store<A: Action, S: State>(val apiRepository: ApiRepository) {
+abstract class Store<A: Action, S: State> {
     var reducer: Reducer<S, A> by Delegates.notNull()
     var state: S by Delegates.notNull()
 
     fun bind(flow: Flow<A>, render: (S) -> Unit) {
-        MainScope().launch {
-            with(reducer) {
+        with(reducer) {
+            MainScope().launch {
                 middlewares.forEach {
                     it.bind(flow).collect {
                         val effect = reduce(state, it)
                         render(effect)
                     }
                 }
+            }
+            MainScope().launch {
                 flow.collect {
                     val effect = reduce(state, it)
                     render(effect)

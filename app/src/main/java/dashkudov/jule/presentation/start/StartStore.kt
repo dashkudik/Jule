@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class StartStore @Inject constructor(apiRepository: ApiRepository) : Store<StartAction, StartState>(apiRepository) {
+class StartStore: Store<StartAction, StartState>() {
 
 }

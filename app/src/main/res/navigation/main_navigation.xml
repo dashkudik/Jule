@@ -7,8 +7,18 @@
     android:id="@+id/main_navigation">
 
     <fragment
-        tools:layout="@layout/f_intro"
+        tools:layout="@layout/f_start"
         android:name="dashkudov.jule.presentation.start.ui.StartFragment"
-        android:id="@+id/f_intro"/>
+        android:id="@+id/f_intro">
+        <action
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:destination="@id/f_auth"
+            android:id="@+id/start_auth"/>
+    </fragment>
+
+    <fragment
+        tools:layout="@layout/f_auth"
+        android:name="dashkudov.jule.presentation.auth.ui.AuthFragment"
+        android:id="@+id/f_auth"/>
 
 </navigation>

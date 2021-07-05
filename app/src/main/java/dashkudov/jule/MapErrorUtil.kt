@@ -1,3 +1,4 @@
+  
 package dashkudov.jule
 
 import com.google.gson.Gson
@@ -5,6 +6,7 @@ import dashkudov.jule.api.ApiResponse
 import dashkudov.jule.api.ResponseStatus
 import dashkudov.jule.api.request.auth.AuthResponseStatus
 import retrofit2.HttpException
+import java.io.IOException
 import java.lang.Exception
 
 object MapErrorUtil {
@@ -53,6 +55,8 @@ object MapErrorUtil {
                 response.onErrorStatus()
             }
         } catch (e: HttpException) {
+            e.onException()
+        } catch (e: IOException) {
             e.onException()
         }
     }

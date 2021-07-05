@@ -76,31 +76,31 @@ class NetworkModule {
         @RequiresApi(Build.VERSION_CODES.O)
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response {
-            val request: Request = chain.request()
-            // TODO: 2/14/21 Remove after stabilization app
-            println(
-                "okhttp " + String.format(
-                    "Sending request %s on %s%n%s", request.url,
-                    chain.connection(), request.headers
+                val request: Request = chain.request()
+                // TODO: 2/14/21 Remove after stabilization app
+                println(
+                        "okhttp " + String.format(
+                                "Sending request %s on %s%n%s", request.url,
+                                chain.connection(), request.headers
+                        )
                 )
-            )
-            val t1 = System.nanoTime()
-            val response: Response = chain.proceed(chain.request())
-            val t2 = System.nanoTime()
-            println(
-                "okhttp " + String.format(
-                    Locale.getDefault(), "Received response from %s in %.1f ms %n%s",
-                    response.request.url, (t2 - t1) / 1e6, response.headers
+                val t1 = System.nanoTime()
+                val response: Response = chain.proceed(chain.request())
+                val t2 = System.nanoTime()
+                println(
+                        "okhttp " + String.format(
+                                Locale.getDefault(), "Received response from %s in %.1f ms %n%s",
+                                response.request.url, (t2 - t1) / 1e6, response.headers
+                        )
                 )
-            )
-            val mediaType: MediaType? = response.body?.contentType()
-            val content: String? = response.body?.string()
-            if (content != null) {
-                println("okhttp $content")
-            }
-            return response.newBuilder()
-                .body((content ?: "").toResponseBody(mediaType))
-                .build()
+                val mediaType: MediaType? = response.body?.contentType()
+                val content: String? = response.body?.string()
+                if (content != null) {
+                    println("okhttp $content")
+                }
+                return response.newBuilder()
+                        .body((content ?: "").toResponseBody(mediaType))
+                        .build()
         }
     }
 
