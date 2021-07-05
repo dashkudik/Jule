@@ -1,4 +1,4 @@
-package dashkudov.jule
+package dashkudov.jule.model
 
 import dashkudov.jule.api.ResponseStatus
 

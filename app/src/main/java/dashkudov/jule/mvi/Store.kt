@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-abstract class Store<A: Action, S: State> {
+class Store<A: Action, S: State> @Inject constructor() {
     var reducer: Reducer<S, A> by Delegates.notNull()
     var state: S by Delegates.notNull()
 

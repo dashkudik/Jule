@@ -1,15 +1,14 @@
 package dashkudov.jule.di.module
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dashkudov.jule.BuildConfig
-import dashkudov.jule.Config
-import dashkudov.jule.dataSources.ApiDataSource
+import dashkudov.jule.common.Config
+import dashkudov.jule.data_sources.ApiDataSource
 import dashkudov.jule.repository.ApiRepository
 import dashkudov.jule.repository.ApiRepositoryImpl
 import okhttp3.*
@@ -22,8 +21,6 @@ import java.net.URL
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.SSLSession
 import kotlin.io.path.ExperimentalPathApi
 
 

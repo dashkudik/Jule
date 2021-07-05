@@ -3,7 +3,7 @@ package dashkudov.jule.repository
 import dashkudov.jule.api.ApiResponse
 import dashkudov.jule.api.request.auth.AuthRequest
 import dashkudov.jule.api.response.auth.AuthResponse
-import dashkudov.jule.dataSources.ApiDataSource
+import dashkudov.jule.data_sources.ApiDataSource
 
 class ApiRepositoryImpl(private val apiRepository: ApiDataSource): ApiRepository {
 

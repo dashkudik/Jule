@@ -1,4 +1,4 @@
-package dashkudov.jule
+package dashkudov.jule.common
 
 object Config {
     const val API_HOST = "https://n-msk-macnei5:8443"

@@ -1,6 +1,6 @@
 package dashkudov.jule.presentation.start
 
-import dashkudov.jule.ErrorModel
+import dashkudov.jule.model.ErrorModel
 import dashkudov.jule.mvi.Action
 
 sealed class StartAction: Action {

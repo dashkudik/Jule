@@ -1,6 +1,5 @@
 package dashkudov.jule.presentation.start
 
-import dashkudov.jule.ErrorModel
 import dashkudov.jule.mvi.State
 
 sealed class StartState: State {

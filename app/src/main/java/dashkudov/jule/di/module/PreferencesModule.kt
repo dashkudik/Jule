@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import dashkudov.jule.Config
+import dashkudov.jule.common.Config
 import dashkudov.jule.repository.PreferencesRepository
 import dashkudov.jule.repository.PreferencesRepositoryImpl
 

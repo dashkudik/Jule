@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dashkudov.jule.R
+import dashkudov.jule.mvi.MviView
 import javax.inject.Inject
 
 abstract class BaseFragment(@LayoutRes private val layoutId: Int): Fragment() {

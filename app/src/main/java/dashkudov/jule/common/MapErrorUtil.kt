@@ -1,10 +1,11 @@
   
-package dashkudov.jule
+package dashkudov.jule.common
 
 import com.google.gson.Gson
 import dashkudov.jule.api.ApiResponse
 import dashkudov.jule.api.ResponseStatus
 import dashkudov.jule.api.request.auth.AuthResponseStatus
+import dashkudov.jule.model.ErrorModel
 import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception

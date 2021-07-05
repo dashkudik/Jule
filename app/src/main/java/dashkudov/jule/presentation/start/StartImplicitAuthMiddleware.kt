@@ -1,8 +1,7 @@
 package dashkudov.jule.presentation.start
 
-import android.util.Log
-import dashkudov.jule.MapErrorUtil.doRequest
-import dashkudov.jule.MapErrorUtil.extractError
+import dashkudov.jule.common.MapErrorUtil.doRequest
+import dashkudov.jule.common.MapErrorUtil.extractError
 import dashkudov.jule.model.JuleLogger
 import dashkudov.jule.mvi.Middleware
 import kotlinx.coroutines.Dispatchers
