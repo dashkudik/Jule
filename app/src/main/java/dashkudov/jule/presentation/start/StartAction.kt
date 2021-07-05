@@ -1,12 +1,16 @@
 package dashkudov.jule.presentation.start
 
-import dashkudov.jule.model.ErrorModel
+import dashkudov.jule.model.ApiErrorModel
+import dashkudov.jule.model.LocalErrorModel
 import dashkudov.jule.mvi.Action
 
 sealed class StartAction: Action {
     object ImplicitAuth: StartAction()
 
     // Effects
-    data class ImplicitAuthDone(val errorModel: ErrorModel? = null): StartAction()
+    data class ImplicitAuthDone(
+        val apiErrorModel: ApiErrorModel? = null,
+        val localErrorModel: LocalErrorModel? = null
+    ): StartAction()
     object ImplicitAuthImpossible: StartAction()
 }

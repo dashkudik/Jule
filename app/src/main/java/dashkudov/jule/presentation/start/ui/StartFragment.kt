@@ -34,7 +34,7 @@ class StartFragment: BaseFragment(R.layout.f_start), MviView<StartAction, StartS
     }
 
     private val startViewModel by lazy {
-        viewModelFactory.create(AuthViewModel::class.java)
+        viewModelFactory.create(StartViewModel::class.java)
     }
 
     override fun onAttach(context: Context) {
@@ -49,6 +49,7 @@ class StartFragment: BaseFragment(R.layout.f_start), MviView<StartAction, StartS
     }
 
     override fun render(state: StartState) {
+        logger.log(state.javaClass.simpleName)
         when (state) {
             is StartState.Shown -> {
                 img.animate().apply {
@@ -62,7 +63,7 @@ class StartFragment: BaseFragment(R.layout.f_start), MviView<StartAction, StartS
                 Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
             }
             is StartState.ToFeed -> {
-                // Not yet
+                Toast.makeText(context, "Тенис", Toast.LENGTH_SHORT).show()
             }
             is StartState.ToAuth -> {
                 MainScope().launch {

@@ -8,7 +8,8 @@ import dashkudov.jule.di.ViewModelFactory
 @Module(
     includes = [
         AppViewModelBuilder::class,
-        StoreModule::class
+        NetworkModule::class,
+        PreferencesModule::class,
     ]
 )
 abstract class ViewModelBuilder {

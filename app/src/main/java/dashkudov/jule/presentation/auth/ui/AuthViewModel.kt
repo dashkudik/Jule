@@ -8,9 +8,7 @@ import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(): ViewModel() {
 
-    @Inject lateinit var startStore: StartStore
-
     fun bind(flow: Flow<StartAction>, render: (StartState) -> Unit) {
-        startStore.bind(flow, render)
+        //startStore.bind(flow, render)
     }
 }

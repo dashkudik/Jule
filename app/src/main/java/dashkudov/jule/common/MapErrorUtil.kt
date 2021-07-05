@@ -5,28 +5,35 @@ import com.google.gson.Gson
 import dashkudov.jule.api.ApiResponse
 import dashkudov.jule.api.ResponseStatus
 import dashkudov.jule.api.request.auth.AuthResponseStatus
-import dashkudov.jule.model.ErrorModel
+import dashkudov.jule.model.ApiErrorModel
+import dashkudov.jule.model.LocalError
+import dashkudov.jule.model.LocalErrorModel
 import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception
 
+
+
 object MapErrorUtil {
 
-    fun HttpException.extractError(): ErrorModel {
+    fun HttpException.extractApiError(): ApiErrorModel {
         val responseString = response()?.errorBody()?.string()
         val response = Gson().fromJson(responseString, ApiResponse::class.java)
-        return ErrorModel(
-            message = response.message?.toUserFriendly(response.status)
+        return ApiErrorModel(
+            message = response.message,
+            status = response.status
         )
     }
 
-    fun Exception.extractError(): ErrorModel {
-        return ErrorModel(
-            message = "Говно инет"
+    fun Exception.extractLocalError(): LocalErrorModel {
+        return LocalErrorModel(
+            if (this is IOException) {
+                LocalError.IO
+            } else {
+                LocalError.NE_ZNAI
+            }
         )
     }
-
-    fun ApiResponse<*>.extractError() = ErrorModel(message?.toUserFriendly(status))
 
     fun String.toUserFriendly(status: ResponseStatus): String? {
         return when (status) {
@@ -45,19 +52,19 @@ object MapErrorUtil {
     suspend fun <T> doRequest(
         responseAsync: suspend () -> ApiResponse<T>,
         onOk: suspend T?.() -> Unit,
-        onErrorStatus: suspend ApiResponse<T>.() -> Unit,
-        onException: suspend Exception.() -> Unit
+        onApiErrorStatus: suspend ApiErrorModel.() -> Unit,
+        onException: suspend Exception.() -> Unit,
     ) {
         try {
             val response = responseAsync()
             if (response.ok) {
                 response.data?.onOk()
             } else {
-                response.onErrorStatus()
+                ApiErrorModel(response.message, response.status).onApiErrorStatus()
             }
         } catch (e: HttpException) {
-            e.onException()
-        } catch (e: IOException) {
+            e.extractApiError().onApiErrorStatus()
+        } catch (e: Exception) {
             e.onException()
         }
     }
