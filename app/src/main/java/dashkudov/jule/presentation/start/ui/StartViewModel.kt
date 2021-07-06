@@ -1,10 +1,9 @@
 package dashkudov.jule.presentation.start.ui
 
 import androidx.lifecycle.ViewModel
-import dashkudov.jule.model.JuleLogger
 import dashkudov.jule.mvi.Store
 import dashkudov.jule.presentation.start.StartAction
-import dashkudov.jule.presentation.start.StartImplicitAuthMiddleware
+import dashkudov.jule.presentation.start.ImplicitAuthMiddleware
 import dashkudov.jule.presentation.start.StartReducer
 import dashkudov.jule.presentation.start.StartState
 import dashkudov.jule.repository.ApiRepository
@@ -19,11 +18,11 @@ class StartViewModel @Inject constructor(): ViewModel() {
 
     private val startStore: Store<StartAction, StartState> by lazy {
         Store<StartAction, StartState>().apply {
-            reducer = StartReducer(StartImplicitAuthMiddleware().apply {
+            reducer = StartReducer(ImplicitAuthMiddleware().apply {
                 this.apiRepository = this@StartViewModel.apiRepository
                 this.preferencesRepository = this@StartViewModel.preferencesRepository
             })
-            initialState = StartState.Shown
+            initialState = StartState.LogoShown
         }
     }
 

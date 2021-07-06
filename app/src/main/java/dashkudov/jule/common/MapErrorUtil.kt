@@ -35,20 +35,6 @@ object MapErrorUtil {
         )
     }
 
-    fun String.toUserFriendly(status: ResponseStatus): String? {
-        return when (status) {
-            ResponseStatus.ERROR_UNAUTHORIZED -> {
-                when (this) {
-                    AuthResponseStatus.BAD_CREDENTIALS.name -> {
-                        "Неправильный логин или пароль"
-                    }
-                    else -> null
-                }
-            }
-            else -> null
-        }
-    }
-
     suspend fun <T> doRequest(
         responseAsync: suspend () -> ApiResponse<T>,
         onOk: suspend T?.() -> Unit,

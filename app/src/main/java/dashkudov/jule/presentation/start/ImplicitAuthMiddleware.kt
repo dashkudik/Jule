@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class StartImplicitAuthMiddleware: Middleware<StartAction>() {
+class ImplicitAuthMiddleware: Middleware<StartAction>() {
 
     override fun bind(actions: Flow<StartAction>): Flow<StartAction> = flow {
         actions.collect {
@@ -25,10 +25,10 @@ class StartImplicitAuthMiddleware: Middleware<StartAction>() {
                                 emit(StartAction.ImplicitAuthDone())
                             },
                             onApiErrorStatus = {
-                                emit(StartAction.ImplicitAuthDone(apiErrorModel = this))
+                                emit(StartAction.ImplicitAuthDone(interpretedError = this))
                             },
                             onException = {
-                                emit(StartAction.ImplicitAuthDone(localErrorModel = extractLocalError()))
+                                emit(StartAction.ImplicitAuthDone(interpretedError = extractLocalError()))
                             },
                         )
                     } else {

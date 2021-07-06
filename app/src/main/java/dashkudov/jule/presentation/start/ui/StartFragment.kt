@@ -4,21 +4,19 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.navigation.NavDirections
-import androidx.navigation.fragment.findNavController
 import dagger.android.support.AndroidSupportInjection
 import dashkudov.jule.R
 import dashkudov.jule.common.Extensions.navigate
 import dashkudov.jule.model.JuleLogger
 import dashkudov.jule.mvi.MviView
 import dashkudov.jule.presentation.BaseFragment
-import dashkudov.jule.presentation.auth.ui.AuthViewModel
 import dashkudov.jule.presentation.start.StartAction
 import dashkudov.jule.presentation.start.StartState
 import kotlinx.android.synthetic.main.f_start.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -51,7 +49,7 @@ class StartFragment: BaseFragment(R.layout.f_start), MviView<StartAction, StartS
     override fun render(state: StartState) {
         logger.log(state.javaClass.simpleName)
         when (state) {
-            is StartState.Shown -> {
+            is StartState.LogoShown -> {
                 img.animate().apply {
                     duration = LOGO_FADE_IN_TIME
                     alpha(ALPHA_IN)
@@ -68,7 +66,7 @@ class StartFragment: BaseFragment(R.layout.f_start), MviView<StartAction, StartS
             is StartState.ToAuth -> {
                 MainScope().launch {
                     state.message?.let {
-                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
                     }
                     img.animate().apply {
                         duration = LOGO_FADE_OUT_TIME
