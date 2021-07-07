@@ -4,11 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import dagger.android.support.AndroidSupportInjection
 import dashkudov.jule.R
 import dashkudov.jule.common.Extensions.navigate
 import dashkudov.jule.model.JuleLogger
-import dashkudov.jule.mvi.MviView
 import dashkudov.jule.presentation.BaseFragment
 import dashkudov.jule.presentation.start.StartAction
 import dashkudov.jule.presentation.start.StartState
@@ -16,20 +16,14 @@ import kotlinx.android.synthetic.main.f_start.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class StartFragment: BaseFragment(R.layout.f_start), MviView<StartAction, StartState> {
+class StartFragment: BaseFragment(R.layout.f_start) {
 
     @Inject lateinit var logger: JuleLogger
-
-    override val flow: Flow<StartAction> by lazy {
-        flow {
-            emit(StartAction.ImplicitAuth)
-        }
-    }
 
     private val startViewModel by lazy {
         viewModelFactory.create(StartViewModel::class.java)
@@ -43,10 +37,21 @@ class StartFragment: BaseFragment(R.layout.f_start), MviView<StartAction, StartS
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startViewModel.bind(flow, ::render)
+
+
+        lifecycleScope.launchWhenStarted {
+            launch {
+                startViewModel.on(flow {
+                    emit(StartAction.LogoAnimationSuspenseRequired)
+                })
+            }
+            launch {
+                startViewModel.startStateFlow.collect(::render)
+            }
+        }
     }
 
-    override fun render(state: StartState) {
+    private fun render(state: StartState) {
         logger.log(state.javaClass.simpleName)
         when (state) {
             is StartState.LogoShown -> {

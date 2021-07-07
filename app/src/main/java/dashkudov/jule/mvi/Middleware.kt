@@ -6,7 +6,8 @@ import dashkudov.jule.repository.PreferencesRepository
 import kotlinx.coroutines.flow.Flow
 
 abstract class Middleware<A: Action> {
-    abstract fun bind(actions: Flow<A>): Flow<A>
+
+    abstract suspend fun effect(action: A): A?
 
     val logger by lazy {
         JuleLogger().apply {

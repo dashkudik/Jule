@@ -8,34 +8,35 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.lang.IllegalStateException
 
 class ImplicitAuthMiddleware: Middleware<StartAction>() {
 
-    override fun bind(actions: Flow<StartAction>): Flow<StartAction> = flow {
-        actions.collect {
-            when (it) {
-                is StartAction.ImplicitAuth -> {
-                    val lastKnownAuthRequest = preferencesRepository.getAuthRequest()
-                    if (lastKnownAuthRequest != null) {
-                        doRequest(
+    override suspend fun effect(action: StartAction): StartAction? {
+        var effect: StartAction? = null
+        when (action) {
+            is StartAction.ImplicitAuth -> {
+                val lastKnownAuthRequest = preferencesRepository.getAuthRequest()
+                if (lastKnownAuthRequest != null) {
+                    doRequest(
                             responseAsync = {
                                 apiRepository.auth(lastKnownAuthRequest)
                             },
                             onOk = {
-                                emit(StartAction.ImplicitAuthDone())
+                                effect = StartAction.ImplicitAuthDone()
                             },
                             onApiErrorStatus = {
-                                emit(StartAction.ImplicitAuthDone(interpretedError = this))
+                                effect = StartAction.ImplicitAuthDone(interpretedError = this)
                             },
                             onException = {
-                                emit(StartAction.ImplicitAuthDone(interpretedError = extractLocalError()))
+                                effect = StartAction.ImplicitAuthDone(interpretedError = extractLocalError())
                             },
-                        )
-                    } else {
-                        emit(StartAction.ImplicitAuthImpossible)
-                    }
+                    )
+                } else {
+                    effect = StartAction.ImplicitAuthImpossible
                 }
             }
         }
-    }.flowOn(Dispatchers.Default)
+        return effect
+    }
 }

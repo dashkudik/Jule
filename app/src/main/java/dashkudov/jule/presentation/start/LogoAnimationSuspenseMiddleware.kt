@@ -1,18 +1,19 @@
 package dashkudov.jule.presentation.start
 
+import android.util.Log
 import dashkudov.jule.common.ViewExtensions.LOGO_FADE_IN_TIME
 import dashkudov.jule.mvi.Middleware
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 
 class LogoAnimationSuspenseMiddleware: Middleware<StartAction>() {
 
-    override fun bind(actions: Flow<StartAction>): Flow<StartAction> {
-        return flow {
-            actions.filter { it is StartAction.LogoAnimationSuspenseRequired }.collect {
-                delay(LOGO_FADE_IN_TIME)
-                emit(StartAction.ImplicitAuth)
-            }
-        }
+    override suspend fun effect(action: StartAction): StartAction? {
+        return if (action is StartAction.LogoAnimationSuspenseRequired) {
+            Log.d("TEST2", "Start delay")
+            delay(LOGO_FADE_IN_TIME)
+            StartAction.ImplicitAuth
+        } else null
     }
 }

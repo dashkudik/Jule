@@ -37,9 +37,9 @@ object MapErrorUtil {
 
     suspend fun <T> doRequest(
         responseAsync: suspend () -> ApiResponse<T>,
-        onOk: suspend T?.() -> Unit,
-        onApiErrorStatus: suspend ApiErrorModel.() -> Unit,
-        onException: suspend Exception.() -> Unit,
+        onOk: T?.() -> Unit,
+        onApiErrorStatus: ApiErrorModel.() -> Unit,
+        onException: Exception.() -> Unit,
     ) {
         try {
             val response = responseAsync()
