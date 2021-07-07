@@ -9,6 +9,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiDataSource {
-    @POST("$API_HOST/auth/token")
+    @POST("${API_HOST}auth/token")
     fun authAsync(@Body content: AuthRequest): Deferred<ApiResponse<AuthResponse>>
 }

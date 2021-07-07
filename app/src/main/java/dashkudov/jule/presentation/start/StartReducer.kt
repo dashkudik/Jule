@@ -7,8 +7,11 @@ class StartReducer(middleware: ImplicitAuthMiddleware, _middleware: LogoAnimatio
 
     override fun reduce(state: StartState, action: StartAction): StartState? {
         return when (action) {
-            is StartAction.LogoAnimationSuspenseRequired -> StartState.LogoAnimating
-            is StartAction.ImplicitAuthDone -> StartState.ToAuth(action.interpretedError?.userFriendlyInterpretation)
+            is StartAction.ImplicitAuthDone -> {
+                action.interpretedError?.userFriendlyInterpretation?.let {
+                    StartState.ToAuth(it)
+                } ?: StartState.ToFeed
+            }
             is StartAction.ImplicitAuthImpossible -> StartState.ToAuth()
             else -> null
         }

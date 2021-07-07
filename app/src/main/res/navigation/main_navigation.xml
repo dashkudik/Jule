@@ -22,7 +22,7 @@
     <fragment
         android:label="Authorization"
         tools:layout="@layout/f_auth"
-        android:name="dashkudov.jule.presentation.auth.ui.AuthFragment"
+        android:name="dashkudov.jule.presentation.feed.ui.FeedFragment"
         android:id="@+id/f_auth"/>
 
 </navigation>

@@ -11,7 +11,6 @@ class LogoAnimationSuspenseMiddleware: Middleware<StartAction>() {
 
     override suspend fun effect(action: StartAction): StartAction? {
         return if (action is StartAction.LogoAnimationSuspenseRequired) {
-            Log.d("TEST2", "Start delay")
             delay(LOGO_FADE_IN_TIME)
             StartAction.ImplicitAuth
         } else null

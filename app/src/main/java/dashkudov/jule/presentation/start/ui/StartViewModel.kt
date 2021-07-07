@@ -14,16 +14,22 @@ import javax.inject.Inject
 class StartViewModel @Inject constructor(): ViewModel() {
 
     val startStateFlow by lazy {
-        MutableStateFlow<StartState>(StartState.LogoAnimating)
+        MutableStateFlow<StartState>(StartState.LogoShown)
+    }
+
+    val startActionFlow by lazy {
+        MutableStateFlow<StartAction>(StartAction.ImplicitAuth)
     }
 
     @Inject
     lateinit var apiRepository: ApiRepository
+
     @Inject
     lateinit var preferencesRepository: PreferencesRepository
 
     @Inject
     lateinit var logger: JuleLogger
+
 
     private val startStore: Store<StartAction, StartState> by lazy {
         Store<StartAction, StartState>().apply {
@@ -38,35 +44,40 @@ class StartViewModel @Inject constructor(): ViewModel() {
         }
     }
 
-    suspend fun on(uiFlow: Flow<StartAction>) {
-        uiFlow.collect {
-            reduce(it, startStore.middlewareList)
+    suspend fun on() {
+        logger.connect(this.javaClass)
+        startActionFlow.collect { action ->
+            logger.log("AF collects ${action.javaClass.simpleName}")
+            CoroutineScope(Dispatchers.Default).launch {
+                startStore.middlewareList.forEach { m ->
+                    m.effect(action)?.let {
+                        logger.log("${m.javaClass.simpleName} effects ${it.javaClass.simpleName}")
+                        startActionFlow.value = it
+                    }
+                }
+            }
+            reduce(action)
         }
     }
 
-    fun reduce(action: StartAction?, middlewares: List<Middleware<StartAction>>) {
-        MainScope().launch {
-            CoroutineScope(Dispatchers.Default).launch {
-                middlewares.forEach { m ->
-                    action?.let {
-                        reduce(m.effect(action), middlewares)
-                    }
-                }
-            }
-            action?.let {
-                logger.log(action.javaClass.simpleName)
-                when (it) {
-                    is StartAction.LogoAnimationSuspenseRequired -> {
-                        startStateFlow.value = StartState.LogoAnimating
-                    }
-                    is StartAction.ImplicitAuthDone -> {
-                        startStateFlow.value = StartState.ToAuth(it.interpretedError?.userFriendlyInterpretation)
-                    }
-                    is StartAction.ImplicitAuthImpossible -> {
-                        startStateFlow.value = StartState.ToAuth()
-                    }
-                }
-            }
-        }
+
+    fun reduce(action: StartAction) {
+         logger.log("Reduce action ${action.javaClass.simpleName}")
+         when (action) {
+
+             is StartAction.ImplicitAuthDone -> {
+                 with(action.interpretedError?.userFriendlyInterpretation) {
+                     if (this != null) {
+                         startStateFlow.value = StartState.ToAuth(this)
+                     } else  {
+                         startStateFlow.value = StartState.ToFeed
+                     }
+                 }
+             }
+
+             is StartAction.ImplicitAuthImpossible -> {
+                 startStateFlow.value = StartState.ToAuth()
+             }
+         }
     }
 }

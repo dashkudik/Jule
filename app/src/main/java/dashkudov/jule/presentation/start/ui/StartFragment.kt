@@ -18,6 +18,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,9 +42,7 @@ class StartFragment: BaseFragment(R.layout.f_start) {
 
         lifecycleScope.launchWhenStarted {
             launch {
-                startViewModel.on(flow {
-                    emit(StartAction.LogoAnimationSuspenseRequired)
-                })
+                startViewModel.on()
             }
             launch {
                 startViewModel.startStateFlow.collect(::render)
@@ -52,16 +51,8 @@ class StartFragment: BaseFragment(R.layout.f_start) {
     }
 
     private fun render(state: StartState) {
-        logger.log(state.javaClass.simpleName)
+        logger.log("Render state ${state.javaClass.simpleName}")
         when (state) {
-            is StartState.LogoShown -> {
-                img.animate().apply {
-                    duration = LOGO_FADE_IN_TIME
-                    alpha(ALPHA_IN)
-                    scaleX(SCALE_IN)
-                    scaleY(SCALE_IN)
-                }
-            }
             is StartState.Error -> {
                 Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
             }
@@ -79,7 +70,7 @@ class StartFragment: BaseFragment(R.layout.f_start) {
                         scaleX(SCALE_OUT)
                         scaleY(SCALE_OUT)
                     }
-                    delay(LOGO_FADE_OUT_TIME)
+                    delay(400)
                     navigate(StartFragmentDirections.startAuth())
                 }
             }
@@ -87,11 +78,10 @@ class StartFragment: BaseFragment(R.layout.f_start) {
     }
 
     private companion object {
-        const val LOGO_FADE_OUT_TIME: Long = 700
-        const val LOGO_FADE_IN_TIME: Long = 2000
+        const val LOGO_FADE_OUT_TIME: Long = 400
         const val ALPHA_OUT = 0f
         const val ALPHA_IN = 1f
-        const val SCALE_OUT = 1.5f
+        const val SCALE_OUT = 3.5f
         const val SCALE_IN = 2f
     }
 }

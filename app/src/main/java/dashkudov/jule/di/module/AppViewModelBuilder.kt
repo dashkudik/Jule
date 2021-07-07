@@ -5,7 +5,7 @@ import dashkudov.jule.di.qualifier.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import dashkudov.jule.presentation.auth.ui.AuthViewModel
+import dashkudov.jule.presentation.auth.ui.FeedViewModel
 import dashkudov.jule.presentation.start.ui.StartViewModel
 
 @Module
@@ -17,6 +17,6 @@ abstract class AppViewModelBuilder {
 
     @Binds
     @IntoMap
-    @ViewModelKey(AuthViewModel::class)
-    abstract fun authViewModel(authViewModel: AuthViewModel): ViewModel
+    @ViewModelKey(FeedViewModel::class)
+    abstract fun authViewModel(feedViewModel: FeedViewModel): ViewModel
 }

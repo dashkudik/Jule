@@ -1,4 +1,4 @@
-package dashkudov.jule.presentation.auth.ui
+package dashkudov.jule.presentation.feed.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -7,9 +7,10 @@ import dagger.android.support.AndroidSupportInjection
 import dashkudov.jule.R
 import dashkudov.jule.model.JuleLogger
 import dashkudov.jule.presentation.BaseFragment
+import dashkudov.jule.presentation.auth.ui.FeedViewModel
 import javax.inject.Inject
 
-class AuthFragment: BaseFragment(R.layout.f_auth) {
+class FeedFragment: BaseFragment(R.layout.f_auth) {
 
     @Inject lateinit var logger: JuleLogger
 

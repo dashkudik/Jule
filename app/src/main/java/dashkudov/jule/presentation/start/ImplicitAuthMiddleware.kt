@@ -14,8 +14,7 @@ class ImplicitAuthMiddleware: Middleware<StartAction>() {
 
     override suspend fun effect(action: StartAction): StartAction? {
         var effect: StartAction? = null
-        when (action) {
-            is StartAction.ImplicitAuth -> {
+        if (action is StartAction.ImplicitAuth) {
                 val lastKnownAuthRequest = preferencesRepository.getAuthRequest()
                 if (lastKnownAuthRequest != null) {
                     doRequest(
@@ -36,7 +35,6 @@ class ImplicitAuthMiddleware: Middleware<StartAction>() {
                     effect = StartAction.ImplicitAuthImpossible
                 }
             }
-        }
         return effect
     }
 }
