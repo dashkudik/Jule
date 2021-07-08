@@ -34,7 +34,7 @@ class StartViewModel @Inject constructor(): ViewModel() {
                     }
                 }
                 startStore.reducer(startStateFlow.value, it)?.let {
-                    startStateFlow.emit(it)
+                    startStateFlow.value = it
                 }
             }
         }
