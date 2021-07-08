@@ -11,16 +11,9 @@ import javax.inject.Inject
 
 class AuthFragment: BaseFragment(R.layout.f_auth) {
 
-    @Inject lateinit var logger: JuleLogger
 
     val authViewModel by lazy {
         viewModelFactory.create(FeedViewModel::class.java)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        AndroidSupportInjection.inject(this)
-        logger.connect(this.javaClass)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

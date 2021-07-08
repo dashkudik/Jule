@@ -5,15 +5,10 @@ import dashkudov.jule.repository.ApiRepository
 import dashkudov.jule.repository.PreferencesRepository
 import kotlinx.coroutines.flow.Flow
 
-abstract class Middleware<A: Action> {
+abstract class Middleware<A: Action>(store: Store<*, *>) {
+    var apiRepository: ApiRepository = store.apiRepository
+    var preferencesRepository: PreferencesRepository = store.preferencesRepository
 
     abstract suspend fun effect(action: A): A?
-
-    val logger by lazy {
-        JuleLogger().apply {
-            connect(this@Middleware.javaClass)
-        }
-    }
-    lateinit var apiRepository: ApiRepository
-    lateinit var preferencesRepository: PreferencesRepository
+    suspend operator fun invoke(action: A) = effect(action)
 }

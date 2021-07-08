@@ -10,18 +10,10 @@ import dashkudov.jule.presentation.BaseFragment
 import dashkudov.jule.presentation.auth.ui.FeedViewModel
 import javax.inject.Inject
 
-class FeedFragment: BaseFragment(R.layout.f_auth) {
-
-    @Inject lateinit var logger: JuleLogger
+class FeedFragment: BaseFragment(R.layout.f_feed) {
 
     val authViewModel by lazy {
         viewModelFactory.create(FeedViewModel::class.java)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        AndroidSupportInjection.inject(this)
-        logger.connect(this.javaClass)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

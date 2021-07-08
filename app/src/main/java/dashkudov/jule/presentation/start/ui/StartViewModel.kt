@@ -1,6 +1,8 @@
 package dashkudov.jule.presentation.start.ui
 
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dashkudov.jule.model.JuleLogger
 import dashkudov.jule.mvi.Middleware
 import dashkudov.jule.mvi.Store
@@ -13,71 +15,30 @@ import javax.inject.Inject
 
 class StartViewModel @Inject constructor(): ViewModel() {
 
-    val startStateFlow by lazy {
-        MutableStateFlow<StartState>(StartState.LogoShown)
-    }
-
-    val startActionFlow by lazy {
-        MutableStateFlow<StartAction>(StartAction.ImplicitAuth)
-    }
-
-    @Inject
-    lateinit var apiRepository: ApiRepository
-
-    @Inject
-    lateinit var preferencesRepository: PreferencesRepository
+    val startStateFlow = MutableStateFlow<StartState>(StartState.LogoShown)
+    val startActionFlow = MutableStateFlow<StartAction>(StartAction.ImplicitAuth)
 
     @Inject
     lateinit var logger: JuleLogger
 
-
-    private val startStore: Store<StartAction, StartState> by lazy {
-        Store<StartAction, StartState>().apply {
-            middlewareList = listOf(
-                    ImplicitAuthMiddleware().apply {
-                        this.apiRepository = this@StartViewModel.apiRepository
-                        this.preferencesRepository = this@StartViewModel.preferencesRepository
-                    }, LogoAnimationSuspenseMiddleware().apply {
-                this.apiRepository = this@StartViewModel.apiRepository
-                this.preferencesRepository = this@StartViewModel.preferencesRepository
-            })
-        }
-    }
-
-    suspend fun on() {
-        logger.connect(this.javaClass)
-        startActionFlow.collect { action ->
-            logger.log("AF collects ${action.javaClass.simpleName}")
-            CoroutineScope(Dispatchers.Default).launch {
-                startStore.middlewareList.forEach { m ->
-                    m.effect(action)?.let {
-                        logger.log("${m.javaClass.simpleName} effects ${it.javaClass.simpleName}")
-                        startActionFlow.value = it
+    fun on() {
+        viewModelScope.launch {
+            startActionFlow.collect {
+                logger.log("AF collects ${it.javaClass.simpleName}")
+                CoroutineScope(Dispatchers.Default).launch {
+                    startStore.middlewares.forEach { middleware ->
+                        middleware(it)?.let {
+                            logger.log("${middleware.javaClass.simpleName} effects ${it.javaClass.simpleName}")
+                            startActionFlow.value = it
+                        }
                     }
                 }
+                startStore.reducer(startStateFlow.value, it)?.let {
+                    startStateFlow.emit(it)
+                }
             }
-            reduce(action)
         }
     }
 
-
-    fun reduce(action: StartAction) {
-         logger.log("Reduce action ${action.javaClass.simpleName}")
-         when (action) {
-
-             is StartAction.ImplicitAuthDone -> {
-                 with(action.interpretedError?.userFriendlyInterpretation) {
-                     if (this != null) {
-                         startStateFlow.value = StartState.ToAuth(this)
-                     } else  {
-                         startStateFlow.value = StartState.ToFeed
-                     }
-                 }
-             }
-
-             is StartAction.ImplicitAuthImpossible -> {
-                 startStateFlow.value = StartState.ToAuth()
-             }
-         }
-    }
+    @Inject lateinit var startStore: StartStore
 }

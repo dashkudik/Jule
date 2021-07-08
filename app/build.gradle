@@ -37,6 +37,13 @@ android {
 
 dependencies {
 
+    // Material
+    implementation "com.google.android.material:material:1.4.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.3.0"
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+
     // MVI Core
     def mvi_core_v = "1.2.6"
     implementation "com.github.badoo.mvicore:mvicore:$mvi_core_v"

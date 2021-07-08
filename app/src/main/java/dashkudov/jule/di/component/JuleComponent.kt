@@ -15,8 +15,7 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         NetworkModule::class,
         ActivityBuilder::class,
-        ContextModule::class,
-        LoggerModule::class
+        ContextModule::class
     ]
 )
 interface JuleComponent : AndroidInjector<JuleApp> {

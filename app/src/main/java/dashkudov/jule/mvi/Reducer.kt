@@ -2,15 +2,7 @@ package dashkudov.jule.mvi
 
 import dashkudov.jule.model.JuleLogger
 
-abstract class Reducer<S: State, A: Action>(vararg _middlewares: Middleware<A>) {
-
-    abstract fun reduce(state: S, action: A): S?
-
-    val middlewares = _middlewares
-
-    val logger by lazy {
-        JuleLogger().apply {
-            connect(this@Reducer.javaClass)
-        }
-    }
+interface Reducer<S: State, A: Action> {
+    fun reduce(state: S, action: A): S?
+    operator fun invoke(state: S, action: A) = reduce(state, action)
 }

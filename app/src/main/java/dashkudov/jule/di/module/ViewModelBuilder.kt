@@ -10,6 +10,8 @@ import dashkudov.jule.di.ViewModelFactory
         AppViewModelBuilder::class,
         NetworkModule::class,
         PreferencesModule::class,
+        LoggerModule::class,
+        StoreModule::class
     ]
 )
 abstract class ViewModelBuilder {

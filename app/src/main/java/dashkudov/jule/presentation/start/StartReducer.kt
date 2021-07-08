@@ -2,17 +2,22 @@ package dashkudov.jule.presentation.start
 
 import dashkudov.jule.mvi.Reducer
 
-class StartReducer(middleware: ImplicitAuthMiddleware, _middleware: LogoAnimationSuspenseMiddleware):
-        Reducer<StartState, StartAction>(middleware, _middleware) {
+class StartReducer: Reducer<StartState, StartAction> {
 
     override fun reduce(state: StartState, action: StartAction): StartState? {
         return when (action) {
             is StartAction.ImplicitAuthDone -> {
-                action.interpretedError?.userFriendlyInterpretation?.let {
-                    StartState.ToAuth(it)
-                } ?: StartState.ToFeed
+                with(action.interpretedError?.userFriendlyInterpretation) {
+                    if (this != null) {
+                        StartState.ToAuth(this)
+                    } else  {
+                        StartState.ToFeed
+                    }
+                }
             }
-            is StartAction.ImplicitAuthImpossible -> StartState.ToAuth()
+            is StartAction.ImplicitAuthImpossible -> {
+                StartState.ToAuth()
+            }
             else -> null
         }
     }

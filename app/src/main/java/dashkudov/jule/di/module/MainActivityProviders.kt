@@ -2,6 +2,7 @@ package dashkudov.jule.di.module
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import dashkudov.jule.presentation.auth.ui.AuthFragment
 import dashkudov.jule.presentation.feed.ui.FeedFragment
 import dashkudov.jule.presentation.start.ui.StartFragment
 
@@ -12,6 +13,9 @@ abstract class MainActivityProviders {
     abstract fun startFragment(): StartFragment
 
     @ContributesAndroidInjector
-    abstract fun authFragment(): FeedFragment
+    abstract fun feedFragment(): FeedFragment
+
+    @ContributesAndroidInjector
+    abstract fun authFragment(): AuthFragment
 
 }
