@@ -1,8 +1,5 @@
 package dashkudov.jule.mvi
 
-import kotlinx.coroutines.flow.Flow
-
-interface MviView<A: Action, S: State> {
+interface MviView<S: State> {
     fun render(state: S)
-    val flow: Flow<A>
 }

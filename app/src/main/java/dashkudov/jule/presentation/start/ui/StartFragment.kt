@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import dashkudov.jule.R
 import dashkudov.jule.common.Extensions.navigate
 import dashkudov.jule.model.JuleLogger
+import dashkudov.jule.mvi.MviView
 import dashkudov.jule.presentation.BaseFragment
 import dashkudov.jule.presentation.start.StartState
 import kotlinx.android.synthetic.main.f_start.*
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class StartFragment: BaseFragment(R.layout.f_start) {
+class StartFragment: BaseFragment(R.layout.f_start), MviView<StartState> {
 
     @Inject
     lateinit var logger: JuleLogger
@@ -27,12 +28,12 @@ class StartFragment: BaseFragment(R.layout.f_start) {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launchWhenStarted {
-            startViewModel.on()
-            startViewModel.startStateFlow.collect(::render)
+            startViewModel.bind()
+            startViewModel.stateFlow.collect(::render)
         }
     }
 
-    private fun render(state: StartState) {
+    override fun render(state: StartState) {
         logger.log("Render state ${state.javaClass.simpleName}")
         when (state) {
             is StartState.Error -> {

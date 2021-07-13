@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
 import dashkudov.jule.R
 import dashkudov.jule.model.JuleLogger
-import dashkudov.jule.mvi.MviView
 import javax.inject.Inject
 
 abstract class BaseFragment(@LayoutRes private val layoutId: Int): Fragment() {

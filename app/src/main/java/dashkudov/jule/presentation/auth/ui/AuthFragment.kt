@@ -11,7 +11,6 @@ import javax.inject.Inject
 
 class AuthFragment: BaseFragment(R.layout.f_auth) {
 
-
     val authViewModel by lazy {
         viewModelFactory.create(FeedViewModel::class.java)
     }
