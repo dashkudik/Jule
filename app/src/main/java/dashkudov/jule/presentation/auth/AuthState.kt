@@ -6,5 +6,7 @@ import dashkudov.jule.presentation.start.StartState
 
 
 sealed class AuthState: State {
-    data class Default(val navDirections: NavDirections? = null): AuthState()
+    data class Default(
+        val navDirections: NavDirections? = null,
+    ): AuthState()
 }

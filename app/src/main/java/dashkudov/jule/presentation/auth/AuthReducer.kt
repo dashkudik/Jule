@@ -19,7 +19,6 @@ class AuthReducer: Reducer<AuthState, AuthAction, AuthNews> {
                     reducedState = AuthState.Default(AuthFragmentDirections.authFeed())
                 }
             }
-            else -> null
         }
         return reducedState to reducedNews
     }

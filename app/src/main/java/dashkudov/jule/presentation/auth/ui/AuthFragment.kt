@@ -10,6 +10,8 @@ import dashkudov.jule.common.Extensions.click
 import dashkudov.jule.common.Extensions.launchWhenStarted
 import dashkudov.jule.common.Extensions.navigate
 import dashkudov.jule.common.Extensions.string
+import dashkudov.jule.common.ViewExtensions
+import dashkudov.jule.common.ViewExtensions.hideKeyboard
 import dashkudov.jule.model.JuleLogger
 import dashkudov.jule.mvi.MviView
 import dashkudov.jule.presentation.BaseFragment
@@ -65,6 +67,12 @@ class AuthFragment: BaseFragment(R.layout.f_auth), MviView<AuthState, AuthNews> 
                         navigate(it)
                     }
                 }
+                if (state.clearFocus) {
+                    setOf(input_login, input_password).forEach {
+                        hideKeyboard(it.context, it)
+                        it.clearFocus()
+                    }
+                }
             }
         }
     }
@@ -75,10 +83,5 @@ class AuthFragment: BaseFragment(R.layout.f_auth), MviView<AuthState, AuthNews> 
                 Toast.makeText(requireActivity(), new.content, Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    companion object {
-        const val TAG = "StartFragment"
-        const val TAG_FLOW = "UiFlow"
     }
 }

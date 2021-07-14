@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Jule">
         <activity
+            android:screenOrientation="portrait"
             android:name="dashkudov.jule.presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
