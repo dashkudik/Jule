@@ -7,7 +7,6 @@ import dashkudov.jule.mvi.Action
 
 sealed class StartAction: Action {
     object ImplicitAuth: StartAction()
-    object LogoAnimationSuspenseRequired: StartAction()
 
     // Effects
 

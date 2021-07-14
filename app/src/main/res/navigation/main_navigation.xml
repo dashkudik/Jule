@@ -29,7 +29,13 @@
         android:label="Authorization"
         tools:layout="@layout/f_auth"
         android:name="dashkudov.jule.presentation.auth.ui.AuthFragment"
-        android:id="@+id/f_auth"/>
+        android:id="@+id/f_auth">
+        <action
+            app:popUpTo="@id/f_auth"
+            app:popUpToInclusive="true"
+            app:destination="@id/f_feed"
+            android:id="@+id/authFeed"/>
+    </fragment>
 
     <fragment
         android:label="Feed"

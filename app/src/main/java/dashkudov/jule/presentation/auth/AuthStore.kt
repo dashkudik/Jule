@@ -1,19 +1,19 @@
-package dashkudov.jule.presentation.start
+package dashkudov.jule.presentation.auth
 
 import dashkudov.jule.mvi.Store
-import dashkudov.jule.presentation.start.middlewares.ImplicitAuthMiddleware
+import dashkudov.jule.presentation.auth.middlewares.AuthMiddleware
 import dashkudov.jule.repository.ApiRepository
 import dashkudov.jule.repository.PreferencesRepository
 import javax.inject.Inject
 
-class StartStore @Inject constructor(
+class AuthStore @Inject constructor(
     apiRepository: ApiRepository,
     preferencesRepository: PreferencesRepository
-): Store<StartState, StartAction, StartNews>(
+): Store<AuthState, AuthAction, AuthNews>(
     apiRepository, preferencesRepository
 ) {
     init {
-        middlewares = listOf(ImplicitAuthMiddleware(this))
-        reducer = StartReducer()
+        middlewares = listOf(AuthMiddleware(this))
+        reducer = AuthReducer()
     }
 }

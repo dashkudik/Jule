@@ -1,14 +1,27 @@
 package dashkudov.jule.common
 
+import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import dashkudov.jule.mvi.Middleware
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 
 object Extensions {
     fun Fragment.navigate(where: NavDirections) = findNavController().navigate(where)
 
-    fun Middleware<*>.cut() = javaClass.simpleName.substring(0..javaClass.simpleName.length - MIDDLEWARE_LENGTH)
+    fun View.click(f: (View) -> Unit) = setOnClickListener { f(this) }
+
+    fun EditText.string() = text.toString()
+
+    fun <T> Flow<T>.launchWhenStarted(lifecycleScope: LifecycleCoroutineScope) {
+        lifecycleScope.launchWhenStarted {
+            this@launchWhenStarted.collect()
+        }
+    }
 
     const val MIDDLEWARE_LENGTH = 11
 }

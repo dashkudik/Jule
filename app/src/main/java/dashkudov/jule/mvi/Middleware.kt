@@ -5,7 +5,7 @@ import dashkudov.jule.repository.ApiRepository
 import dashkudov.jule.repository.PreferencesRepository
 import kotlinx.coroutines.flow.Flow
 
-abstract class Middleware<A: Action>(store: Store<*, *>) {
+abstract class Middleware<A: Action>(store: Store<*, *, *>) {
     var apiRepository: ApiRepository = store.apiRepository
     var preferencesRepository: PreferencesRepository = store.preferencesRepository
 

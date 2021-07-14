@@ -1,24 +1,29 @@
 package dashkudov.jule.presentation.start
 
+import android.widget.Toast
 import dashkudov.jule.mvi.Reducer
+import dashkudov.jule.presentation.auth.AuthNews
+import dashkudov.jule.presentation.auth.AuthState
+import dashkudov.jule.presentation.start.ui.StartFragmentDirections
 
-class StartReducer: Reducer<StartState, StartAction> {
+class StartReducer: Reducer<StartState, StartAction, StartNews> {
 
-    override fun reduce(state: StartState, action: StartAction): StartState? {
-        return when (action) {
+    override fun reduce(state: StartState, action: StartAction): Pair<StartState?, StartNews?> {
+        var reducedState: StartState? = null
+        var reducedNews: StartNews? = null
+        when (action) {
             is StartAction.ImplicitAuthDone -> {
-                with(action.interpretedError?.userFriendlyInterpretation) {
-                    if (this != null) {
-                        StartState.ToAuth(this)
-                    } else  {
-                        StartState.ToFeed
-                    }
+                action.interpretedError?.let {
+                    reducedNews = StartNews.Message(Toast.LENGTH_SHORT, it.userFriendlyInterpretation)
+                    reducedState = StartState.Default(StartFragmentDirections.startAuth())
+                } ?: run {
+                    reducedState = StartState.Default(StartFragmentDirections.startFeed())
                 }
             }
             is StartAction.ImplicitAuthImpossible -> {
-                StartState.ToAuth()
+                reducedState = StartState.Default(StartFragmentDirections.startAuth())
             }
-            else -> null
         }
+        return reducedState to reducedNews
     }
 }

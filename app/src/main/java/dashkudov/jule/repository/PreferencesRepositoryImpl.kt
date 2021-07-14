@@ -20,6 +20,6 @@ class PreferencesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAuthRequest(): AuthRequest? {
-        return AuthRequest("qwerty", "123")
+        return AuthRequest("qwe2rty", "123")
     }
 }
