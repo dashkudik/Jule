@@ -1,6 +1,7 @@
 package dashkudov.jule.presentation.auth.ui
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -11,7 +12,9 @@ import dashkudov.jule.common.Extensions.launchWhenStarted
 import dashkudov.jule.common.Extensions.navigate
 import dashkudov.jule.common.Extensions.string
 import dashkudov.jule.common.ViewExtensions
+import dashkudov.jule.common.ViewExtensions.gone
 import dashkudov.jule.common.ViewExtensions.hideKeyboard
+import dashkudov.jule.common.ViewExtensions.visible
 import dashkudov.jule.model.JuleLogger
 import dashkudov.jule.mvi.MviView
 import dashkudov.jule.presentation.BaseFragment
@@ -44,7 +47,7 @@ class AuthFragment: BaseFragment(R.layout.f_auth), MviView<AuthState, AuthNews> 
         logger.connect(javaClass)
 
         with(authViewModel) {
-            bind(lifecycleScope, this@AuthFragment)
+            bind(viewLifecycleOwner.lifecycleScope, this@AuthFragment)
         }
 
         btnAuth.click {
@@ -53,7 +56,7 @@ class AuthFragment: BaseFragment(R.layout.f_auth), MviView<AuthState, AuthNews> 
                 password = input_password.string()
             )
             val action = AuthAction.Auth(authRequest)
-            MainScope().launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 authViewModel.obtainAction(action)
             }
         }
@@ -62,17 +65,19 @@ class AuthFragment: BaseFragment(R.layout.f_auth), MviView<AuthState, AuthNews> 
     override fun renderState(state: AuthState) {
         when (state) {
             is AuthState.Default -> {
-                lifecycleScope.launch {
+                btnAuth.isClickable = true
+                btnAuth.isFocusable = true
+                progressBar.gone()
+                viewLifecycleOwner.lifecycleScope.launch {
                     state.navDirections?.let {
                         navigate(it)
                     }
                 }
-                if (state.clearFocus) {
-                    setOf(input_login, input_password).forEach {
-                        hideKeyboard(it.context, it)
-                        it.clearFocus()
-                    }
-                }
+            }
+            is AuthState.Loading -> {
+                btnAuth.isClickable = false
+                btnAuth.isFocusable = false
+                progressBar.visible()
             }
         }
     }
@@ -80,7 +85,7 @@ class AuthFragment: BaseFragment(R.layout.f_auth), MviView<AuthState, AuthNews> 
     override fun renderNews(new: AuthNews) {
         when (new) {
             is AuthNews.Message -> {
-                Toast.makeText(requireActivity(), new.content, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), new.content, Toast.LENGTH_SHORT).show()
             }
         }
     }

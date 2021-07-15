@@ -34,24 +34,4 @@ object MapErrorUtil {
             }
         )
     }
-
-    suspend fun <T> doRequest(
-        responseAsync: suspend () -> ApiResponse<T>,
-        onOk: T?.() -> Unit,
-        onApiErrorStatus: ApiErrorModel.() -> Unit,
-        onException: Exception.() -> Unit,
-    ) {
-        try {
-            val response = responseAsync()
-            if (response.ok) {
-                response.data?.onOk()
-            } else {
-                ApiErrorModel(response.message, response.status).onApiErrorStatus()
-            }
-        } catch (e: HttpException) {
-            e.extractApiError().onApiErrorStatus()
-        } catch (e: Exception) {
-            e.onException()
-        }
-    }
 }

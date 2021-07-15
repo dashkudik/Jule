@@ -18,13 +18,22 @@ class ImplicitAuthMiddleware(store: Store<*, *, *>): Middleware<StartAction>(sto
                                 apiRepository.auth(lastKnownAuthRequest)
                             },
                             onOk = {
-                                effect = StartAction.ImplicitAuthDone()
+                                effect = StartAction.ImplicitAuthDone(
+                                    authRequest = lastKnownAuthRequest,
+                                    authResponse = this
+                                )
                             },
                             onApiErrorStatus = {
-                                effect = StartAction.ImplicitAuthDone(interpretedError = this)
+                                effect = StartAction.ImplicitAuthDone(
+                                    authRequest = lastKnownAuthRequest,
+                                    interpretedError = this
+                                )
                             },
                             onException = {
-                                effect = StartAction.ImplicitAuthDone(interpretedError = extractLocalError())
+                                effect = StartAction.ImplicitAuthDone(
+                                    authRequest = lastKnownAuthRequest,
+                                    interpretedError = extractLocalError()
+                                )
                             },
                     )
                 } else {

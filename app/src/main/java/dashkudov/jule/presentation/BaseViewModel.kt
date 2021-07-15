@@ -54,7 +54,10 @@ abstract class BaseViewModel<S: State, A: Action, N: News>: ViewModel() {
                         }
                     }
 
+
                     val reduced = store.reducer(stateFlow.value, it)
+
+                    logger.log("Reduced state - ${reduced.first}")
 
                     reduced.first?.let {
                         stateFlow.value = it

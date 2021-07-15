@@ -1,6 +1,8 @@
 package dashkudov.jule.di.module
 
+import android.content.SharedPreferences
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -11,6 +13,10 @@ import dashkudov.jule.common.Config
 import dashkudov.jule.data_sources.ApiDataSource
 import dashkudov.jule.repository.ApiRepository
 import dashkudov.jule.repository.ApiRepositoryImpl
+import dashkudov.jule.repository.PreferencesRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.*
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,7 +30,7 @@ import javax.inject.Singleton
 import kotlin.io.path.ExperimentalPathApi
 
 
-@Module
+@Module(includes = [PreferencesModule::class])
 class NetworkModule {
 
     companion object {
@@ -32,15 +38,16 @@ class NetworkModule {
         private const val DEFAULT_CACHE_AGE: Int = 2
         private const val LOG_TAG: String = "LOGGING_INTERCEPTOR"
     }
-    object AuthTokenInterceptor : Interceptor {
-        var token: String? = null
-        override fun intercept(chain: Interceptor.Chain): Response {
-            val request = chain.request()
-            val builder = request.newBuilder()
-            builder.addHeader("Authorization", "Bearer $token")
-            return chain.proceed(builder.build())
+
+    class AuthTokenInterceptor(val token: String?) : Interceptor {
+
+            override fun intercept(chain: Interceptor.Chain): Response {
+                val request = chain.request()
+                val builder = request.newBuilder()
+                builder.addHeader("Authorization", "Bearer $token")
+                return chain.proceed(builder.build())
+            }
         }
-    }
 
     @Provides
     @Singleton
@@ -109,8 +116,9 @@ class NetworkModule {
     fun providesOkHttpClient(
         apiHeadersInterceptor: Interceptor,
         loggingInterceptor: HttpLoggingInterceptor?,
+        token: String?,
     ): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(AuthTokenInterceptor)
+        .addInterceptor(AuthTokenInterceptor(token))
         .addInterceptor(apiHeadersInterceptor)
         .addInterceptor(OkHttpLogoInterceptor())
         .apply {

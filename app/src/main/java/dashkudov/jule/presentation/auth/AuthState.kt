@@ -9,4 +9,6 @@ sealed class AuthState: State {
     data class Default(
         val navDirections: NavDirections? = null,
     ): AuthState()
+
+    object Loading: AuthState()
 }

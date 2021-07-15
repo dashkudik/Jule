@@ -5,6 +5,18 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.13"
+        android:indeterminate="true"
+        android:layout_width="42dp"
+        android:layout_height="42dp"/>
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_login"
         android:textColorHighlight="@color/purple_200"

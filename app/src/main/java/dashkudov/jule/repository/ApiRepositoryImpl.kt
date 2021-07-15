@@ -4,6 +4,7 @@ import dashkudov.jule.api.ApiResponse
 import dashkudov.jule.api.request.auth.AuthRequest
 import dashkudov.jule.api.response.auth.AuthResponse
 import dashkudov.jule.data_sources.ApiDataSource
+import kotlinx.coroutines.delay
 
 class ApiRepositoryImpl(private val apiRepository: ApiDataSource): ApiRepository {
 

@@ -8,6 +8,7 @@ import dagger.Provides
 import dashkudov.jule.common.Config
 import dashkudov.jule.repository.PreferencesRepository
 import dashkudov.jule.repository.PreferencesRepositoryImpl
+import javax.inject.Singleton
 
 @Module(includes = [ContextModule::class])
 class PreferencesModule {
@@ -20,5 +21,11 @@ class PreferencesModule {
     @Provides
     fun providePreferences(preferences: SharedPreferences): PreferencesRepository {
         return PreferencesRepositoryImpl(preferences)
+    }
+
+    @Singleton
+    @Provides
+    fun provideToken(preferencesRepository: PreferencesRepository): String? {
+        return preferencesRepository.getSavedTokenSync()
     }
 }

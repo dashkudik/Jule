@@ -7,19 +7,37 @@ import javax.inject.Inject
 class PreferencesRepositoryImpl @Inject constructor(
     private val preferences: SharedPreferences
 ): PreferencesRepository {
+
+    private companion object {
+        const val KEY_TOKEN = "pwjkbf"
+        const val KEY_LOGIN = "p4emeng"
+        const val KEY_PASSWORD = "wQPMFC"
+    }
+
     override suspend fun saveToken(token: String) {
-        TODO("Not yet implemented")
+            preferences.edit().putString(KEY_TOKEN, token).apply()
     }
 
     override suspend fun getSavedToken(): String? {
-        TODO("Not yet implemented")
+        return preferences.getString(KEY_TOKEN, null)
+    }
+
+    override fun getSavedTokenSync(): String? {
+        return preferences.getString(KEY_TOKEN, null)
     }
 
     override suspend fun saveAuthRequest(authRequest: AuthRequest) {
-        TODO("Not yet implemented")
+        preferences.edit().putString(KEY_LOGIN, authRequest.login).apply()
+        preferences.edit().putString(KEY_PASSWORD, authRequest.password).apply()
     }
 
     override suspend fun getAuthRequest(): AuthRequest? {
-        return AuthRequest("qwe2rty", "123")
+        val login = preferences.getString(KEY_LOGIN, null)
+        val password = preferences.getString(KEY_PASSWORD, null)
+        return if (login == null || password == null) {
+            null
+        } else {
+            AuthRequest(login, password)
+        }
     }
 }

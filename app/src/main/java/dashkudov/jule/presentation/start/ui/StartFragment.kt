@@ -36,10 +36,11 @@ class StartFragment: BaseFragment(R.layout.f_start), MviView<StartState, StartNe
         logger.connect(javaClass)
 
         with(startViewModel) {
-            bind(lifecycleScope, this@StartFragment)
-
-            lifecycleScope.launchWhenStarted {
-                obtainAction(StartAction.ImplicitAuth)
+            with(viewLifecycleOwner.lifecycleScope) {
+                bind(this, this@StartFragment)
+                launchWhenStarted {
+                    obtainAction(StartAction.ImplicitAuth)
+                }
             }
         }
     }
@@ -47,7 +48,7 @@ class StartFragment: BaseFragment(R.layout.f_start), MviView<StartState, StartNe
     override fun renderState(state: StartState) {
         when (state) {
             is StartState.Default -> {
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     state.navDirections?.let {
                         animateLogo()
                         delay(LOGO_FADE_IN_TIME)
