@@ -18,9 +18,11 @@ class AuthMiddleware(store: Store<*, *, *>): Middleware<AuthAction>(store) {
                         apiRepository.auth(authRequest)
                     },
                     onOk = {
-                        withContext(coroutineContext) { preferencesRepository.saveRefreshToken(tokens.refreshToken) }
-                        withContext(coroutineContext) { preferencesRepository.saveAccessToken(tokens.accessToken) }
-                        withContext(coroutineContext) { preferencesRepository.saveTokenLifetime(tokens.accessTokenLifeMinutes) }
+                        CoroutineScope(Dispatchers.IO).launch {
+                            preferencesRepository.saveRefreshToken(tokens.refreshToken)
+                            preferencesRepository.saveAccessToken(tokens.accessToken)
+                            preferencesRepository.saveTokenLifetime(tokens.accessTokenLifeMinutes)
+                        }
                         effect = AuthAction.AuthDone(
                             authRequest = authRequest,
                             authResponse = this

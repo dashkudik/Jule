@@ -21,7 +21,7 @@ abstract class Middleware<A>(store: Store<*, *, *>) {
 
     suspend fun <T> doRequest(
         responseAsync: suspend () -> ApiResponse<T>,
-        onOk: suspend T.() -> Unit,
+        onOk: T.() -> Unit,
         onApiErrorStatus: ApiErrorModel.() -> Unit,
         onException: Exception.() -> Unit,
     ) {
