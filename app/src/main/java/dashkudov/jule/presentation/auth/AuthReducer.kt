@@ -13,7 +13,9 @@ class AuthReducer: Reducer<AuthState, AuthAction, AuthNews> {
         when (action) {
             is AuthAction.AuthDone -> {
                 action.interpretedError?.let {
-                    reducedNews = AuthNews.Message(Toast.LENGTH_SHORT, it.userFriendlyInterpretation)
+                    it.userFriendlyInterpretation.takeIf { it.isNotEmpty() }?.let {
+                        reducedNews = AuthNews.Message(Toast.LENGTH_SHORT, it)
+                    }
                     reducedState = AuthState.Default()
                 } ?: run {
                     reducedState = AuthState.Default(AuthFragmentDirections.authFeed())

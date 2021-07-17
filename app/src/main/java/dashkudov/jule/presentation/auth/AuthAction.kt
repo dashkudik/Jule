@@ -10,7 +10,6 @@ sealed class AuthAction: Action {
 
     // Effects
     data class AuthDone(
-        val authRequest: AuthRequest,
         val authResponse: AuthResponse? = null,
         val interpretedError: InterpretedError? = null,
     ): AuthAction()

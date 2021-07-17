@@ -11,6 +11,7 @@
         tools:layout="@layout/f_start"
         android:name="dashkudov.jule.presentation.start.ui.StartFragment"
         android:id="@+id/f_start">
+        <!-- START - AUTH -->
         <action
             app:popUpTo="@id/f_start"
             app:popUpToInclusive="true"
@@ -18,6 +19,7 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:destination="@id/f_auth"
             android:id="@+id/start_auth"/>
+        <!-- START - FEED -->
         <action
             app:popUpTo="@id/f_start"
             app:popUpToInclusive="true"
@@ -42,6 +44,7 @@
             android:id="@+id/authFeed"/>
         <!-- AUTH - SIGN UP -->
         <action
+            app:popUpTo="@id/f_auth"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:destination="@+id/f_sign_up"
@@ -54,6 +57,14 @@
         tools:layout="@layout/f_sign_up"
         android:name="dashkudov.jule.presentation.sign_up.ui.SignUpFragment"
         android:id="@+id/f_sign_up">
+        <!-- SIGN UP - FEED -->
+        <action
+            app:popUpTo="@id/f_auth"
+            app:popUpToInclusive="true"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:destination="@+id/f_feed"
+            android:id="@+id/signUpFeed"/>
     </fragment>
 
     <fragment

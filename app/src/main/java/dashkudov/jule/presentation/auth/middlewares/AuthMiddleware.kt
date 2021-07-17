@@ -24,19 +24,16 @@ class AuthMiddleware(store: Store<*, *, *>): Middleware<AuthAction>(store) {
                             preferencesRepository.saveTokenLifetime(tokens.accessTokenLifeMinutes)
                         }
                         effect = AuthAction.AuthDone(
-                            authRequest = authRequest,
                             authResponse = this
                         )
                     },
                     onApiErrorStatus = {
                         effect = AuthAction.AuthDone(
-                            authRequest = authRequest,
                             interpretedError = this
                         )
                     },
                     onException = {
                         effect = AuthAction.AuthDone(
-                            authRequest = authRequest,
                             interpretedError = extractLocalError()
                         )
                     },

@@ -7,7 +7,6 @@ sealed class StartAction: Action {
     object ImplicitAuth: StartAction()
 
     // Effects
-
     data class ImplicitAuthDone(
         val interpretedError: InterpretedError? = null,
     ): StartAction()

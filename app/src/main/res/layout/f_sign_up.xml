@@ -124,7 +124,7 @@
         android:textSize="16sp"
         android:text="Зарегиться"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:id="@+id/btnAuth"
+        android:id="@+id/btnSignUp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.5"
