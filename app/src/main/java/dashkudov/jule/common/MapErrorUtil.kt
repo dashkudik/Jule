@@ -3,8 +3,6 @@ package dashkudov.jule.common
 
 import com.google.gson.Gson
 import dashkudov.jule.api.ApiResponse
-import dashkudov.jule.api.ResponseStatus
-import dashkudov.jule.api.request.auth.AuthResponseStatus
 import dashkudov.jule.model.ApiErrorModel
 import dashkudov.jule.model.LocalError
 import dashkudov.jule.model.LocalErrorModel

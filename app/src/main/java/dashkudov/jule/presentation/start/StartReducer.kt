@@ -14,7 +14,9 @@ class StartReducer: Reducer<StartState, StartAction, StartNews> {
         when (action) {
             is StartAction.ImplicitAuthDone -> {
                 action.interpretedError?.let {
-                    reducedNews = StartNews.Message(Toast.LENGTH_SHORT, it.userFriendlyInterpretation)
+                    it.userFriendlyInterpretation.takeIf { it.isNotEmpty() }?.let {
+                        reducedNews = StartNews.Message(Toast.LENGTH_SHORT, it)
+                    }
                     reducedState = StartState.Default(StartFragmentDirections.startAuth())
                 } ?: run {
                     reducedState = StartState.Default(StartFragmentDirections.startFeed())

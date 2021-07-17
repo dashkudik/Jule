@@ -1,8 +1,5 @@
 package dashkudov.jule.model
 
-import dashkudov.jule.api.ResponseStatus
-import dashkudov.jule.api.request.auth.AuthResponseStatus
-
 data class LocalErrorModel(val localError: LocalError): InterpretedError {
 
     override val userFriendlyInterpretation: String

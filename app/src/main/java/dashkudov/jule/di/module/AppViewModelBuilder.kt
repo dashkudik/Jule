@@ -7,6 +7,8 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import dashkudov.jule.presentation.auth.ui.AuthViewModel
 import dashkudov.jule.presentation.auth.ui.FeedViewModel
+import dashkudov.jule.presentation.sign_up.ui.SignUpFragment
+import dashkudov.jule.presentation.sign_up.ui.SignUpViewModel
 import dashkudov.jule.presentation.start.ui.StartViewModel
 
 @Module
@@ -25,4 +27,9 @@ abstract class AppViewModelBuilder {
     @IntoMap
     @ViewModelKey(FeedViewModel::class)
     abstract fun feedViewModel(feedViewModel: FeedViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SignUpViewModel::class)
+    abstract fun signUpViewModel(signUpFragment: SignUpViewModel): ViewModel
 }

@@ -1,6 +1,7 @@
 package dashkudov.jule.presentation.auth.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
@@ -60,6 +61,15 @@ class AuthFragment: BaseFragment(R.layout.f_auth), MviView<AuthState, AuthNews> 
                 authViewModel.obtainAction(action)
             }
         }
+
+        btnSignUp.click {
+            logger.log("WTF")
+            authViewModel.obtainState(
+                AuthState.Default(
+                    navDirections = AuthFragmentDirections.authSignUp()
+                )
+            )
+        }
     }
 
     override fun renderState(state: AuthState) {
@@ -68,10 +78,9 @@ class AuthFragment: BaseFragment(R.layout.f_auth), MviView<AuthState, AuthNews> 
                 btnAuth.isClickable = true
                 btnAuth.isFocusable = true
                 progressBar.gone()
-                viewLifecycleOwner.lifecycleScope.launch {
-                    state.navDirections?.let {
-                        navigate(it)
-                    }
+                state.navDirections?.let {
+                    navigate(it)
+                    authViewModel.obtainState(state.copy(null))
                 }
             }
             is AuthState.Loading -> {

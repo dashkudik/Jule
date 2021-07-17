@@ -14,12 +14,14 @@
         <action
             app:popUpTo="@id/f_start"
             app:popUpToInclusive="true"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:destination="@id/f_auth"
             android:id="@+id/start_auth"/>
         <action
             app:popUpTo="@id/f_start"
             app:popUpToInclusive="true"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:destination="@id/f_feed"
             android:id="@+id/start_feed"/>
@@ -30,11 +32,28 @@
         tools:layout="@layout/f_auth"
         android:name="dashkudov.jule.presentation.auth.ui.AuthFragment"
         android:id="@+id/f_auth">
+        <!-- AUTH - FEED -->
         <action
             app:popUpTo="@id/f_auth"
             app:popUpToInclusive="true"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"
             app:destination="@id/f_feed"
             android:id="@+id/authFeed"/>
+        <!-- AUTH - SIGN UP -->
+        <action
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:destination="@+id/f_sign_up"
+            android:id="@+id/authSignUp"/>
+
+    </fragment>
+
+    <fragment
+        android:label="Registration"
+        tools:layout="@layout/f_sign_up"
+        android:name="dashkudov.jule.presentation.sign_up.ui.SignUpFragment"
+        android:id="@+id/f_sign_up">
     </fragment>
 
     <fragment

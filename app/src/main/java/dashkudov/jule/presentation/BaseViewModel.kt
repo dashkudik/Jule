@@ -1,5 +1,6 @@
 package dashkudov.jule.presentation
 
+import android.util.Log
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
@@ -9,10 +10,7 @@ import dashkudov.jule.model.JuleLogger
 import dashkudov.jule.mvi.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +28,18 @@ abstract class BaseViewModel<S: State, A: Action, N: News>: ViewModel() {
         actionFlow.emit(action)
     }
 
+    fun obtainState(state: S) {
+        viewModelScope.launch {
+            stateFlow.emit(state)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        Log.i("TEST3", "Cleared")
+    }
+
     fun bind(lifecycleScope: LifecycleCoroutineScope, mviView: MviView<S, N>) {
         logger.connect(javaClass)
 
@@ -41,7 +51,7 @@ abstract class BaseViewModel<S: State, A: Action, N: News>: ViewModel() {
             .onEach(mviView::renderNews)
             .launchWhenStarted(lifecycleScope)
 
-        viewModelScope.launch {
+        lifecycleScope.launch {
             actionFlow.collect {
                 it?.let {
                     logger.log("AF collects ${it.javaClass.simpleName}")
@@ -53,16 +63,11 @@ abstract class BaseViewModel<S: State, A: Action, N: News>: ViewModel() {
                             }
                         }
                     }
-
-
                     val reduced = store.reducer(stateFlow.value, it)
-
                     logger.log("Reduced state - ${reduced.first}")
-
                     reduced.first?.let {
                         stateFlow.value = it
                     }
-
                     reduced.second?.let {
                         newsFlow.emit(it)
                     }

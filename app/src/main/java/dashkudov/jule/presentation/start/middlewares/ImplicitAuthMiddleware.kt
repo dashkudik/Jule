@@ -1,37 +1,35 @@
 package dashkudov.jule.presentation.start.middlewares
 
-import dashkudov.jule.common.MapErrorUtil.doRequest
+import dashkudov.jule.api.request.auth.ImplicitAuthRequest
 import dashkudov.jule.common.MapErrorUtil.extractLocalError
 import dashkudov.jule.mvi.Middleware
 import dashkudov.jule.mvi.Store
 import dashkudov.jule.presentation.start.StartAction
+import javax.inject.Inject
 
 class ImplicitAuthMiddleware(store: Store<*, *, *>): Middleware<StartAction>(store) {
 
     override suspend fun effect(action: StartAction): StartAction? {
         var effect: StartAction? = null
         if (action is StartAction.ImplicitAuth) {
-                val lastKnownAuthRequest = preferencesRepository.getAuthRequest()
-                if (lastKnownAuthRequest != null) {
+                val lastKnownToken = preferencesRepository.getSavedRefreshToken()
+                if (lastKnownToken != null) {
                     doRequest(
                             responseAsync = {
-                                apiRepository.auth(lastKnownAuthRequest)
+                                apiRepository.implicitAuth(
+                                    implicitAuthRequest = ImplicitAuthRequest(lastKnownToken)
+                                )
                             },
                             onOk = {
-                                effect = StartAction.ImplicitAuthDone(
-                                    authRequest = lastKnownAuthRequest,
-                                    authResponse = this
-                                )
+                                effect = StartAction.ImplicitAuthDone()
                             },
                             onApiErrorStatus = {
                                 effect = StartAction.ImplicitAuthDone(
-                                    authRequest = lastKnownAuthRequest,
                                     interpretedError = this
                                 )
                             },
                             onException = {
                                 effect = StartAction.ImplicitAuthDone(
-                                    authRequest = lastKnownAuthRequest,
                                     interpretedError = extractLocalError()
                                 )
                             },

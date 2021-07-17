@@ -5,9 +5,12 @@ import dashkudov.jule.api.request.auth.AuthRequest
 interface PreferencesRepository {
 
     // Auth
-    suspend fun saveToken(token: String)
-    suspend fun getSavedToken(): String?
+    suspend fun saveAccessToken(token: String)
+    suspend fun saveRefreshToken(token: String)
+    suspend fun saveTokenLifetime(tokenLifetime: Int)
+
+    suspend fun getSavedAccessToken(): String?
+    suspend fun getSavedRefreshToken(): String?
+    suspend fun getSavedTokenLifetime(): Int?
     fun getSavedTokenSync(): String?
-    suspend fun saveAuthRequest(authRequest: AuthRequest)
-    suspend fun getAuthRequest(): AuthRequest?
 }

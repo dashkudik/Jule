@@ -31,7 +31,7 @@
         android:hint="Логин"
         android:inputType="text"
         android:textColorHint="@color/purple_200"
-        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintVertical_bias="0.25"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -64,8 +64,29 @@
         android:id="@+id/btnAuth"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintWidth_percent="0.7"
         app:layout_constraintTop_toBottomOf="@+id/input_password"
+        android:layout_width="0dp"
+        android:layout_height="52dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:clickable="true"
+        android:focusable="true"
+        app:strokeWidth="0dp"
+        app:strokeColor="?attr/colorPrimary"
+        android:textAllCaps="false"
+        app:cornerRadius="18dp"
+        android:letterSpacing="-0.005"
+        android:textSize="16sp"
+        android:textColor="#CDFFFFFF"
+        android:text="Зарегистрироваться"
+        android:backgroundTint="#6DBD8FF6"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:id="@+id/btnSignUp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintTop_toBottomOf="@+id/btnAuth"
         android:layout_width="0dp"
         android:layout_height="52dp"/>
 

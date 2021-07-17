@@ -1,12 +1,14 @@
 package dashkudov.jule.mvi
 
+import dashkudov.jule.model.JuleLogger
 import dashkudov.jule.repository.ApiRepository
 import dashkudov.jule.repository.PreferencesRepository
 import javax.inject.Inject
 
 open class Store<S: State, A: Action, N: News> @Inject constructor(
-    var apiRepository: ApiRepository,
-    var preferencesRepository: PreferencesRepository
+    val apiRepository: ApiRepository,
+    val preferencesRepository: PreferencesRepository,
+    val logger: JuleLogger
 ) {
     lateinit var middlewares: List<Middleware<A>>
     lateinit var reducer: Reducer<S, A, N>

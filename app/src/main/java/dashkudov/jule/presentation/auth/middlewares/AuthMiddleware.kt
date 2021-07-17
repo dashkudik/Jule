@@ -5,9 +5,8 @@ import dashkudov.jule.common.MapErrorUtil.extractLocalError
 import dashkudov.jule.mvi.Middleware
 import dashkudov.jule.mvi.Store
 import dashkudov.jule.presentation.auth.AuthAction
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlin.coroutines.coroutineContext
 
 class AuthMiddleware(store: Store<*, *, *>): Middleware<AuthAction>(store) {
     override suspend fun effect(action: AuthAction): AuthAction? {
@@ -19,13 +18,13 @@ class AuthMiddleware(store: Store<*, *, *>): Middleware<AuthAction>(store) {
                         apiRepository.auth(authRequest)
                     },
                     onOk = {
+                        withContext(coroutineContext) { preferencesRepository.saveRefreshToken(tokens.refreshToken) }
+                        withContext(coroutineContext) { preferencesRepository.saveAccessToken(tokens.accessToken) }
+                        withContext(coroutineContext) { preferencesRepository.saveTokenLifetime(tokens.accessTokenLifeMinutes) }
                         effect = AuthAction.AuthDone(
                             authRequest = authRequest,
                             authResponse = this
                         )
-                        CoroutineScope(Dispatchers.IO).launch {
-                            preferencesRepository.saveAuthRequest(authRequest)
-                        }
                     },
                     onApiErrorStatus = {
                         effect = AuthAction.AuthDone(
