@@ -5,6 +5,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import dashkudov.jule.mvi.Middleware
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +21,12 @@ object Extensions {
     fun <T> Flow<T>.launchWhenStarted(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launchWhenStarted {
             this@launchWhenStarted.collect()
+        }
+    }
+
+    fun View.clickToBack() {
+        setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

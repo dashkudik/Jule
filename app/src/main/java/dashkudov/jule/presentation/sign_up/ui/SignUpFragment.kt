@@ -10,6 +10,7 @@ import dashkudov.jule.api.model.GenderApi
 import dashkudov.jule.api.request.auth.AuthRequest
 import dashkudov.jule.api.request.sign_up.SignUpRequest
 import dashkudov.jule.common.Extensions.click
+import dashkudov.jule.common.Extensions.clickToBack
 import dashkudov.jule.common.Extensions.navigate
 import dashkudov.jule.common.Extensions.string
 import dashkudov.jule.common.ViewExtensions.gone
@@ -26,6 +27,9 @@ import dashkudov.jule.presentation.sign_up.SignUpState
 import kotlinx.android.synthetic.main.f_auth.*
 import kotlinx.android.synthetic.main.f_auth.btnSignUp
 import kotlinx.android.synthetic.main.f_sign_up.*
+import kotlinx.android.synthetic.main.f_sign_up.input_login
+import kotlinx.android.synthetic.main.f_sign_up.input_password
+import kotlinx.android.synthetic.main.f_sign_up.progressBar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,10 +53,10 @@ class SignUpFragment: BaseFragment(R.layout.f_sign_up), MviView<SignUpState, Sig
 
         btnSignUp.click {
             val signUpRequest = SignUpRequest(
-                login = "",
-                password = "1212",
-                email = "d@ayadddddsdcahoo.com",
-                name = "Димы",
+                login = input_login.string(),
+                password = input_password.string(),
+                email = input_email.string(),
+                name = input_name.string(),
                 gender = GenderApi.M
             )
             viewLifecycleOwner.lifecycleScope.launch {
@@ -61,13 +65,24 @@ class SignUpFragment: BaseFragment(R.layout.f_sign_up), MviView<SignUpState, Sig
                 )
             }
         }
+
+        btnBack.clickToBack()
     }
 
     override fun renderState(state: SignUpState) {
         when (state) {
+            is SignUpState.Loading -> {
+                btnSignUp.isClickable = false
+                btnSignUp.isFocusable = false
+                progressBar.visible()
+            }
             is SignUpState.Default -> {
+                btnSignUp.isClickable = true
+                btnSignUp.isFocusable = true
+                progressBar.gone()
                 state.navDirections?.let {
                     navigate(it)
+                    signUpViewModel.obtainState(state.copy(null))
                 }
             }
         }

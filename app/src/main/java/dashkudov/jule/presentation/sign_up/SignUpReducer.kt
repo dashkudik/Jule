@@ -12,11 +12,15 @@ class SignUpReducer: Reducer<SignUpState, SignUpAction, SignUpNews> {
         var reducedNews: SignUpNews? = null
 
         when (action) {
+            is SignUpAction.SignUp -> {
+                reducedState = SignUpState.Loading
+            }
             is SignUpAction.SignUpDone -> {
                 action.interpretedError?.let {
                     it.userFriendlyInterpretation.takeIf { it.isNotEmpty() }?.let {
                         reducedNews = SignUpNews.Message(Toast.LENGTH_SHORT, it)
                     }
+                    reducedState = SignUpState.Default()
                 } ?: run {
                     reducedState = SignUpState.Default(
                         navDirections = SignUpFragmentDirections.signUpFeed()
